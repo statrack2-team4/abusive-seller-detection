@@ -1,0 +1,54 @@
+# Python-generated files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# Virtual environments
+.venv
+
+# Browser data
+browser_data/
+temp_user_data/
+
+# Data
+# data/
+
+# Jupyter
+**/.ipynb_checkpoints
+
+# Logs
+*.log
+
+# OS generated
+.DS_Store
+
+# IDE
+.vscode/
+
+# env
+.env
+
+# Models
+*.pkl
+*.h5
+*.pt
+*.pth
+models/
+
+# AI
+.claude/settings.local.json
+
+# MLflow
+mlruns/
+mlartifacts/
+outputs/
+mlruns*.db
+mlflow.db
+# SQLite WAL mode temporary files
+*-shm
+*-wal
+**/basic_auth.db
+reports/
