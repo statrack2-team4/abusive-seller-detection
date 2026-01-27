@@ -1,4 +1,4 @@
-from src.database.supabase_client import get_supabase_client
+from .supabase_client import get_supabase_client   # ← 여기만 변경
 import pandas as pd
 
 
