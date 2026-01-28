@@ -13,7 +13,7 @@ resolution-markers = [
 [[package]]
 name = "abusive-seller-detection"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "dotenv" },
     { name = "jupyter" },
@@ -24,6 +24,11 @@ dependencies = [
     { name = "scikit-learn" },
     { name = "shap" },
     { name = "supabase" },
+]
+
+[package.dev-dependencies]
+dev = [
+    { name = "abusive-seller-detection" },
 ]
 
 [package.metadata]
@@ -38,6 +43,9 @@ requires-dist = [
     { name = "shap", specifier = ">=0.49.1" },
     { name = "supabase", specifier = ">=2.27.2" },
 ]
+
+[package.metadata.requires-dev]
+dev = [{ name = "abusive-seller-detection", editable = "." }]
 
 [[package]]
 name = "annotated-types"
