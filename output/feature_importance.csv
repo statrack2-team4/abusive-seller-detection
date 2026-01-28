@@ -1,6 +1,6 @@
 feature,feature_kr,importance
 avg_rating,평균 평점,258
-conditions_met_count,conditions_met_count,219
+conditions_met_count,조건 충족 개수,219
 rating_std,평점 표준편차,43
 avg_review_length,평균 리뷰 길이,21
 low_rating_ratio,저평점 비율,5
