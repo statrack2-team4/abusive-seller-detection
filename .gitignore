@@ -14,7 +14,7 @@ browser_data/
 temp_user_data/
 
 # Data
-# data/
+data/processed/**
 
 # Jupyter
 **/.ipynb_checkpoints
