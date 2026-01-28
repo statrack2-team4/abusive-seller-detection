@@ -122,8 +122,8 @@ def analyze_labels(df):
         axes[1].text(i, v + 5, str(v), ha='center', fontweight='bold')
     
     plt.tight_layout()
-    plt.savefig('output/01_label_distribution.png', dpi=150, bbox_inches='tight')
-    print("\n✅ 그래프 저장: output/01_label_distribution.png")
+    plt.savefig('output/01_라벨분포.png', dpi=150, bbox_inches='tight')
+    print("\n✅ 그래프 저장: output/01_라벨분포.png")
     plt.show()
     plt.close()
 
@@ -163,8 +163,8 @@ def analyze_conditions(df):
                 fontproperties=fontprop)
     
     plt.tight_layout()
-    plt.savefig('output/02_conditions_distribution.png', dpi=150, bbox_inches='tight')
-    print("\n✅ 그래프 저장: output/02_conditions_distribution.png")
+    plt.savefig('output/02_조건충족개수.png', dpi=150, bbox_inches='tight')
+    print("\n✅ 그래프 저장: output/02_조건충족개수.png")
     plt.show()
     plt.close()
 
@@ -217,8 +217,8 @@ def compare_features(df):
         ax.grid(axis='y', alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig('output/03_feature_comparison.png', dpi=150, bbox_inches='tight')
-    print("\n✅ 그래프 저장: output/03_feature_comparison.png")
+    plt.savefig('output/03_feature비교boxplot.png', dpi=150, bbox_inches='tight')
+    print("\n✅ 그래프 저장: output/03_feature비교boxplot.png")
     plt.show()
     plt.close()
 
@@ -255,8 +255,8 @@ def correlation_analysis(df):
     ax.set_yticklabels(ax.get_yticklabels(), fontproperties=fontprop, rotation=0)
     
     plt.tight_layout()
-    plt.savefig('output/04_correlation_heatmap.png', dpi=150, bbox_inches='tight')
-    print("\n✅ 그래프 저장: output/04_correlation_heatmap.png")
+    plt.savefig('output/04_feature상관관계히트맵.png', dpi=150, bbox_inches='tight')
+    print("\n✅ 그래프 저장: output/04_feature상관관계히트맵.png")
     plt.show()
     plt.close()
     
@@ -338,10 +338,10 @@ def main():
     print("✅ 모든 분석 완료!")
     print("=" * 70)
     print("\n생성된 파일:")
-    print("  - output/01_label_distribution.png")
-    print("  - output/02_conditions_distribution.png")
-    print("  - output/03_feature_comparison.png")
-    print("  - output/04_correlation_heatmap.png")
+    print("  - output/01_라벨분포.png")
+    print("  - output/02_조건충족개수.png")
+    print("  - output/03_feature비교boxplot.png")
+    print("  - output/04_feature상관관계히트맵.png")
     print("  - output/feature_comparison.csv")
     print("  - output/overall_statistics.csv")
     print("\n그래프를 확인하세요! 🎉")

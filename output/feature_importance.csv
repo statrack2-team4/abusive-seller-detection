@@ -1,0 +1,22 @@
+feature,feature_kr,importance
+avg_rating,평균 평점,258
+conditions_met_count,conditions_met_count,219
+rating_std,평점 표준편차,43
+avg_review_length,평균 리뷰 길이,21
+low_rating_ratio,저평점 비율,5
+avg_sentiment_score,평균 감성 점수,4
+rating_sentiment_gap,평점-감성 괴리도,2
+question_count,문의 개수,2
+negative_keyword_ratio,부정 키워드 비율,1
+textless_5star_ratio,텍스트 없는 5점 비율,1
+authenticity_question_ratio,진품 문의 비율,1
+negative_sentiment_ratio,부정 감성 비율,0
+product_count,상품 개수,0
+rating_normalized,정규화 평점,0
+defect_question_ratio,불량 문의 비율,0
+question_review_ratio,문의/리뷰 비율,0
+question_density,문의 밀도,0
+review_density,리뷰 밀도,0
+review_count,리뷰 개수,0
+duplicate_review_ratio,중복 리뷰 비율,0
+refund_question_ratio,환불 문의 비율,0
