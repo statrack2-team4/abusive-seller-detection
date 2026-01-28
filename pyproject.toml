@@ -30,7 +30,7 @@ members = [
 ]
 
 [tool.uv.sources]
-abusive-seller-detection = { workspace = true, editable = true }
+abusive-seller-detection = { path = "../abusive-seller-detection", editable = true }
 
 [dependency-groups]
 dev = [
