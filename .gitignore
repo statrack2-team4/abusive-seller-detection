@@ -15,6 +15,7 @@ temp_user_data/
 
 # Data
 data/processed/**
+data/raw/**
 
 # Jupyter
 **/.ipynb_checkpoints
