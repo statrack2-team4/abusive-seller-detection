@@ -28,6 +28,10 @@ BASE_DIR = Path(__file__).parent
 DATA_DIR = BASE_DIR / "data" / "processed"
 MODELS_DIR = BASE_DIR / "models"
 
+# Hugging Face 설정 (모델 업로드 후 여기에 repo_id 입력)
+HF_REPO_ID = "alrq/abusive-seller-detection"
+HF_MODEL_FILENAME = "abusing_detector_tuned_tuned_rf.pkl"
+
 # 피처 컬럼 정의 (모델 학습에 사용된 피처)
 FEATURE_COLUMNS = [
     "satisfaction_score", "review_count", "total_product_count",
@@ -95,13 +99,26 @@ def load_features():
 
 @st.cache_resource
 def load_model():
-    """모델 로드"""
+    """모델 로드 (로컬 우선, 없으면 Hugging Face에서 다운로드)"""
     model_path = MODELS_DIR / "abusing_detector_tuned_tuned_rf.pkl"
 
-    if not model_path.exists():
-        return None
+    # 1. 로컬 파일 확인
+    if model_path.exists():
+        return joblib.load(model_path)
 
-    return joblib.load(model_path)
+    # 2. Hugging Face Hub에서 다운로드
+    try:
+        from huggingface_hub import hf_hub_download
+
+        downloaded_path = hf_hub_download(
+            repo_id=HF_REPO_ID,
+            filename=HF_MODEL_FILENAME,
+            cache_dir=str(MODELS_DIR / "hf_cache"),
+        )
+        return joblib.load(downloaded_path)
+    except Exception as e:
+        st.error(f"모델 다운로드 실패: {e}")
+        return None
 
 
 @st.cache_data
@@ -147,8 +164,8 @@ def main():
         return
 
     if model is None:
-        st.error("모델 파일을 찾을 수 없습니다.")
-        st.info("`models/abusing_detector_tuned_tuned_rf.pkl` 파일을 확인해주세요.")
+        st.error("모델을 로드할 수 없습니다.")
+        st.info(f"Hugging Face repo 확인: https://huggingface.co/{HF_REPO_ID}")
         return
 
     # 검증 데이터 준비
