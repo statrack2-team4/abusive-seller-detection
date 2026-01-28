@@ -1,3 +1,6 @@
+from features.question_features import build_question_features
+from features.review_features import build_review_features
+from features.product_features import build_product_features
 import pandas as pd
 from pathlib import Path
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -35,38 +38,6 @@ class FeatureGenerator:
             self.reviews_df = pd.read_csv(self.data_dir / "ml_reviews.csv")
             self.questions_df = pd.read_csv(self.data_dir / "ml_questions.csv")
         return self
-
-    def generate_product_features(self) -> pd.DataFrame:
-        """판매자별 대표 상품 피처를 생성합니다."""
-        # 판매자별 대표 상품 피처 (첫 번째 상품 기준)
-        product_features = self.products_df.groupby("vendor_name").first().reset_index()
-
-        # 평점 분포 비율 계산
-        denom = product_features["review_count"].replace(0, 1)
-        product_features["rating_5_ratio"] = product_features["rating_5"] / denom
-        product_features["rating_4_ratio"] = product_features["rating_4"] / denom
-        product_features["rating_1_2_ratio"] = (
-            product_features["rating_1"] + product_features["rating_2"]
-        ) / denom
-
-        # 필요한 피처만 선택
-        product_features = product_features[
-            [
-                "vendor_name",
-                "price",
-                "discount_rate",
-                "product_rating",
-                "shipping_fee",
-                "shipping_days",
-                "review_count",
-                "inquiry_count",
-                "rating_5_ratio",
-                "rating_4_ratio",
-                "rating_1_2_ratio",
-            ]
-        ].rename(columns={"vendor_name": "company_name"})
-
-        return product_features
 
     def generate_review_features(self) -> pd.DataFrame:
         """판매자별 리뷰 패턴 피처를 생성합니다."""
@@ -225,13 +196,16 @@ class FeatureGenerator:
         if self.sellers_df is None:
             self.load_data()
 
-        prod_feat = self.generate_product_features()
-        rev_feat = self.generate_review_features()
-        ques_feat = self.generate_question_features()
+        prod_feat_df = build_product_features(self.products_df)
+        # rev_feat_df = build_review_features(self.reviews_df, self.products_df)
+        # ques_feat_df = build_question_features(self.questions_df, self.products_df)
+        prod_feat_df = self.generate_product_features()
+        rev_feat_df = self.generate_review_features()
+        ques_feat_df = self.generate_question_features()
 
         # 모든 피처 병합
-        final_df = prod_feat.merge(rev_feat, on="company_name", how="outer")
-        final_df = final_df.merge(ques_feat, on="company_name", how="outer")
+        final_df = prod_feat_df.merge(rev_feat_df, on="company_name", how="outer")
+        final_df = final_df.merge(ques_feat_df, on="company_name", how="outer")
 
         # 모든 판매자가 포함되도록 마스터 판매자 목록과 병합
         master_sellers = self.sellers_df[["company_name", "is_abusing_seller"]]
