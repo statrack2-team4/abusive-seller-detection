@@ -1,4 +1,4 @@
-from src.features.text_utils import clean_text
+from src.utils.text_utils import clean_text
 import pandas as pd
 
 

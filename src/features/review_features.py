@@ -1,9 +1,4 @@
-from src.features.text_utils import (
-    clean_text,
-    text_length,
-    negative_keyword_ratio,
-    duplicate_ratio,
-)
+from src.utils.text_utils import clean_text, duplicate_ratio, negative_keyword_ratio
 import pandas as pd
 
 
@@ -37,7 +32,7 @@ def build_review_features(
     reviews = reviews.merge(prod_vendor, on="product_id", how="left")
 
     reviews["clean_text"] = reviews["review_text"].apply(clean_text)
-    reviews["text_length"] = reviews["clean_text"].apply(text_length)
+    reviews["text_length"] = reviews["clean_text"].apply(len)
 
     result = []
 

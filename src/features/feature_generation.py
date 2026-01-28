@@ -1,6 +1,6 @@
-from features.question_features import build_question_features
-from features.review_features import build_review_features
-from features.product_features import build_product_features
+from src.features.question_features import build_question_features
+from src.features.review_features import build_review_features
+from src.features.product_features import build_product_features
 import pandas as pd
 from pathlib import Path
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -158,6 +158,11 @@ class FeatureGenerator:
             & (questions_with_vendor["response_time_hours"] <= 24)
         ).astype(int)
 
+        questions_with_vendor["is_answered"] = (
+            questions_with_vendor["answer"].notna()
+            & (questions_with_vendor["answer"] != "")
+        ).astype(int)
+
         # 판매자별 문의 응대 패턴 집계
         question_features = (
             questions_with_vendor.groupby("vendor_name")
@@ -199,7 +204,6 @@ class FeatureGenerator:
         prod_feat_df = build_product_features(self.products_df)
         # rev_feat_df = build_review_features(self.reviews_df, self.products_df)
         # ques_feat_df = build_question_features(self.questions_df, self.products_df)
-        prod_feat_df = self.generate_product_features()
         rev_feat_df = self.generate_review_features()
         ques_feat_df = self.generate_question_features()
 
