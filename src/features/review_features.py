@@ -48,9 +48,11 @@ def build_review_features(
             "avg_review_length": g["text_length"].mean(),
             "negative_keyword_ratio": negative_keyword_ratio(texts, NEGATIVE_KEYWORDS),
             "duplicate_review_ratio": duplicate_ratio(texts),
-            "review_count": len(g),
+            "review_count_actual": len(g),
         }
 
         result.append(feature)
 
-    return pd.DataFrame(result)
+    df = pd.DataFrame(result)
+    df = df.rename(columns={"vendor_name": "company_name"})
+    return df

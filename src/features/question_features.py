@@ -46,4 +46,6 @@ def build_question_features(
 
         result.append(feature)
 
-    return pd.DataFrame(result)
+    df = pd.DataFrame(result)
+    df = df.rename(columns={"vendor_name": "company_name"})
+    return df

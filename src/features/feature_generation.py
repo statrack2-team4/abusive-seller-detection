@@ -196,39 +196,54 @@ class FeatureGenerator:
 
         return question_features
 
-    def generate_all_features(self) -> pd.DataFrame:
+    def generate_all_features(self, exclude_columns=[]) -> pd.DataFrame:
         """전체 피처 생성 파이프라인을 실행합니다."""
         if self.sellers_df is None:
             self.load_data()
 
         prod_feat_df = build_product_features(self.products_df)
-        # rev_feat_df = build_review_features(self.reviews_df, self.products_df)
-        # ques_feat_df = build_question_features(self.questions_df, self.products_df)
-        rev_feat_df = self.generate_review_features()
-        ques_feat_df = self.generate_question_features()
+        rev_feat_df = build_review_features(self.reviews_df, self.products_df)
+        ques_type_feat_df = build_question_features(self.questions_df, self.products_df)
+        ques_response_feat_df = self.generate_question_features()
 
         # 모든 피처 병합
         final_df = prod_feat_df.merge(rev_feat_df, on="company_name", how="outer")
-        final_df = final_df.merge(ques_feat_df, on="company_name", how="outer")
+        final_df = final_df.merge(ques_type_feat_df, on="company_name", how="outer")
+        final_df = final_df.merge(ques_response_feat_df, on="company_name", how="outer")
 
         # 모든 판매자가 포함되도록 마스터 판매자 목록과 병합
-        master_sellers = self.sellers_df[["company_name", "is_abusing_seller"]]
+        master_sellers = self.sellers_df[["company_name", "is_abusing_seller", "satisfaction_score"]]
         final_df = master_sellers.merge(final_df, on="company_name", how="left")
 
         # 상품/리뷰/문의가 없는 판매자를 위해 NaN 값을 처리합니다.
         # 일반적으로 카운트나 비율은 0으로, 또는 적절한 기본값으로 채웁니다.
         fill_zeros = [
+            # product_features
+            "price",
+            "discount_rate",
+            "product_rating",
+            "shipping_fee",
+            "shipping_days",
             "review_count",
             "inquiry_count",
             "rating_5_ratio",
             "rating_4_ratio",
             "rating_1_2_ratio",
+            # review_features (build_review_features)
+            "avg_rating",
+            "rating_std",
+            "low_rating_ratio",
+            "avg_review_length",
+            "negative_keyword_ratio",
+            "duplicate_review_ratio",
             "review_count_actual",
-            "review_length_mean",
-            "short_review_ratio",
-            "five_star_ratio",
-            "review_rating_mean",
-            "review_similarity",
+            # question_features (build_question_features)
+            "total_question_count",
+            "refund_question_ratio",
+            "authenticity_question_ratio",
+            "defect_question_ratio",
+            "delivery_question_ratio",
+            # question_features (generate_question_features)
             "question_count",
             "answer_rate",
             "avg_response_hours",
@@ -236,7 +251,11 @@ class FeatureGenerator:
             "short_answer_ratio",
             "avg_answer_length",
         ]
+        # 존재하는 컬럼만 fillna 적용
+        fill_zeros = [col for col in fill_zeros if col in final_df.columns]
         final_df[fill_zeros] = final_df[fill_zeros].fillna(0)
+
+        final_df = final_df.drop(columns=exclude_columns)
 
         return final_df
 
