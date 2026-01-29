@@ -8,6 +8,61 @@ from sklearn.metrics.pairwise import cosine_similarity
 from src.config import PROCESSED_DATA_DIR
 
 
+# 피처 한글 이름 매핑
+FEATURE_NAMES_KO = {
+    # 판매자 기본 정보
+    "satisfaction_score": "만족도 점수",
+    # 상품 피처 (product_features)
+    "price": "가격",
+    "discount_rate": "할인율",
+    "product_rating": "상품 평점",
+    "shipping_fee": "배송비",
+    "shipping_days": "배송 소요일",
+    "review_count": "리뷰 수",
+    "inquiry_count": "문의 수",
+    "rating_5_ratio": "5점 비율",
+    "rating_4_ratio": "4점 비율",
+    "rating_1_2_ratio": "1-2점 비율",
+    # 리뷰 피처 (build_review_features)
+    "avg_rating": "평균 평점",
+    "rating_std": "평점 표준편차",
+    "low_rating_ratio": "저평점 비율",
+    "avg_review_length": "평균 리뷰 길이",
+    "negative_keyword_ratio": "부정 키워드 비율",
+    "duplicate_review_ratio": "중복 리뷰 비율",
+    "review_count_actual": "실제 리뷰 수",
+    # 리뷰 피처 (generate_review_features - 레거시)
+    "review_length_mean": "평균 리뷰 길이",
+    "short_review_ratio": "짧은 리뷰 비율",
+    "five_star_ratio": "5점 리뷰 비율",
+    "review_rating_mean": "평균 리뷰 평점",
+    "review_similarity": "리뷰 유사도",
+    # 문의 타입 피처 (question_features - build)
+    "total_question_count": "총 문의 수",
+    "refund_question_ratio": "환불 문의 비율",
+    "authenticity_question_ratio": "정품 문의 비율",
+    "defect_question_ratio": "불량 문의 비율",
+    "delivery_question_ratio": "배송 문의 비율",
+    # 문의 응답 피처 (question_features - generate)
+    "question_count": "문의 건수",
+    "answer_rate": "답변율",
+    "avg_response_hours": "평균 응답 시간(시간)",
+    "quick_response_ratio": "빠른 응답 비율",
+    "short_answer_ratio": "짧은 답변 비율",
+    "avg_answer_length": "평균 답변 길이",
+}
+
+
+def get_feature_name_ko(feature: str) -> str:
+    """피처의 한글 이름을 반환합니다."""
+    return FEATURE_NAMES_KO.get(feature, feature)
+
+
+def get_feature_names_ko(features: list[str]) -> list[str]:
+    """피처 목록의 한글 이름을 반환합니다."""
+    return [FEATURE_NAMES_KO.get(f, f) for f in features]
+
+
 class FeatureGenerator:
     def __init__(
         self,
