@@ -24,12 +24,12 @@
 
 ## 📚 문서
 
-1. [문제 정의](docs/problem_definition.md)
-2. [데이터 수집](docs/data_collection.md)
-3. [데이터 전처리](docs/data_preprocessing.md)
-4. [모델 훈련](docs/model_training.md)
-5. [모델 평가](docs/model_evaluation.md)
-6. [하이퍼 파라미터 튜닝](docs/hyperparameter_tuning.md)
+1. [문제 정의](docs/1_problem_definition.md)
+2. [데이터 수집](docs/2_data_collection.md)
+3. [데이터 전처리](docs/3_data_preprocessing.md)
+4. [모델 훈련](docs/4_model_training.md)
+5. [모델 평가](docs/5_model_evaluation.md)
+6. [하이퍼 파라미터 튜닝](docs/6_hyperparameter_tuning.md)
 
 ## 📦 준비
 
